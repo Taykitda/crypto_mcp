@@ -37,6 +37,12 @@ htmlcov/
 *.swp
 *.swo
 
+# Operating System
+.DS_Store
+
+# Workflow & Agent Rules
+AGENTS.md
+
 # Environment variables
 .env
 .env.local

@@ -145,8 +145,41 @@ graph TD
 
 ## 🚀 客户端配置与使用指南
 
-### 1. Claude Desktop 客户端配置
+前提条件：确保系统已安装 [`uv`](https://docs.astral.sh/uv/)（macOS / Linux 一键安装：`curl -LsSf https://astral.sh/uv/install.sh | sh`）。
+
+### 方式一：直接通过 GitHub 运行（最推荐，无需手动 clone 和配置环境）
+
+在 Claude Desktop、Cursor 或 Antigravity IDE 中，直接通过 `uvx` 运行 GitHub 仓库发布的包：
+
+#### 1. Claude Desktop 客户端配置
 在配置文件 `~/Library/Application Support/Claude/claude_desktop_config.json`（macOS）中添加：
+
+```json
+{
+  "mcpServers": {
+    "crypto-mcp": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/<your-username>/crypto-mcp.git",
+        "crypto-mcp"
+      ]
+    }
+  }
+}
+```
+
+#### 2. Cursor / Antigravity IDE 配置
+在 IDE 的 MCP 设置项中增加 `stdio` 服务：
+- **Name**: `crypto-mcp`
+- **Command**: `uvx`
+- **Args**: `["--from", "git+https://github.com/<your-username>/crypto-mcp.git", "crypto-mcp"]`
+
+---
+
+### 方式二：本地克隆运行（适合二次开发）
+
+如果你克隆了本项目源码并进行了本地调试：
 
 ```json
 {
@@ -155,7 +188,7 @@ graph TD
       "command": "uv",
       "args": [
         "--directory",
-        "/Users/alvin/Documents/Code/crypto_mcp",
+        "/path/to/crypto_mcp",
         "run",
         "crypto-mcp"
       ]
@@ -164,16 +197,15 @@ graph TD
 }
 ```
 
-### 2. Cursor / Antigravity IDE 配置
-在 IDE 的 MCP 设置项中增加 `stdio` 服务：
-- **Name**: `crypto-mcp`
-- **Command**: `uv`
-- **Args**: `["--directory", "/Users/alvin/Documents/Code/crypto_mcp", "run", "crypto-mcp"]`
+> **注意**：请将 `/path/to/crypto_mcp` 替换为你实际克隆到本地的代码目录绝对路径。
 
-### 3. 官方 MCP Inspector 网页可视化调试
-如果你想直接在浏览器中调试工具，运行：
+---
+
+### 3. 官方 MCP Inspector 可视化调试
+若需在浏览器中实时调试工具协议：
 ```bash
-npx @modelcontextprotocol/inspector uv --directory /Users/alvin/Documents/Code/crypto_mcp run crypto-mcp
+# 本地源码调试
+npx @modelcontextprotocol/inspector uv run crypto-mcp
 ```
 终端会输出调试网页链接，浏览器打开后即可在图形界面直接调用 4 个 Tool 并查看实时报文。
 
